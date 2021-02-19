@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import cloneDeep from 'lodash.clonedeep';
 // import './App.css';
 
 function App() {
@@ -10,7 +11,16 @@ function App() {
   ]);
 
   // initialize 
+  const initialize = () => {
+    let newGrid = cloneDeep(data);
+    // let newClone = cloneDeep(data);
+    console.log(newGrid);
 
+    addNumber(newGrid);
+    addNumber(newGrid);
+    setData(newGrid);
+
+  }
   // AddNumber 
   const addNumber = (newGrid) => {
     let added = false;
@@ -38,6 +48,12 @@ function App() {
 
   // Reset
 
+  useEffect(() => {
+    initialize();
+
+  }, [])
+
+  //-------------------------------
   return (<div style={{
     background: '#aaaaaa',
     width: "max-content",
