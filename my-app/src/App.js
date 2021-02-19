@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import cloneDeep from 'lodash.clonedeep';
+import { useEvent } from "./util";
 // import './App.css';
 
 function App() {
@@ -275,6 +276,8 @@ function App() {
     document.addEventListener('keydown', handleKeyDown);
   }, [])
 
+
+  useEvent("keydown", handleKeyDown);
   //-------------------------------
   return (<div style={{
     background: '#aaaaaa',
