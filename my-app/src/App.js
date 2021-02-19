@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from "react";
 import cloneDeep from 'lodash.clonedeep';
 import { useEvent, getColors } from "./util";
 // import './App.css';
@@ -10,7 +10,6 @@ function App() {
   const LEFT_ARROW = 37;
   const RIGHT_ARROW = 39;
 
-
   const [data, setData] = useState([
     [0, 0, 0, 0],
     [0, 0, 0, 0],
@@ -18,18 +17,19 @@ function App() {
     [0, 0, 0, 0],
   ]);
 
+  const [gameOver, setGameOver] = useState(false);
+
   // initialize 
   const initialize = () => {
     let newGrid = cloneDeep(data);
-    // let newClone = cloneDeep(data);
-    console.log(newGrid);
-
     addNumber(newGrid);
     addNumber(newGrid);
+    console.table(newGrid);
     setData(newGrid);
+  };
 
-  }
-  // AddNumber 
+  // AddNumber - Add an item
+
   const addNumber = (newGrid) => {
     let added = false;
     let gridFull = false;
@@ -38,22 +38,28 @@ function App() {
       if (gridFull) {
         break;
       }
+
       let rand1 = Math.floor(Math.random() * 4);
       let rand2 = Math.floor(Math.random() * 4);
       attempts++;
-
       if (newGrid[rand1][rand2] === 0) {
-        newGrid[rand1][rand2] = Math.random() > 0.5 ? 2 : 4;
+        newGrid[rand1][rand2] = 2;
         added = true;
       }
-
+      if (attempts > 50) {
+        gridFull = true;
+        let gameOverr = checkIfGameOver();
+        if (gameOverr) {
+          // setGameOver(true);
+        }
+        // setGameOver(true);
+      }
     }
-  }
+  };
 
   // Swipe  
 
   const swipeLeft = (dummy) => {
-    console.log("swipe left");
     let oldGrid = data;
     let newArray = cloneDeep(data);
 
@@ -98,7 +104,6 @@ function App() {
     }
   };
   const swipeRight = (dummy) => {
-    console.log("swipe right");
     let oldData = data;
     let newArray = cloneDeep(data);
 
@@ -144,8 +149,6 @@ function App() {
   };
 
   const swipeDown = (dummy) => {
-    console.log("swipe down");
-    console.log(data);
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
     for (let i = 3; i >= 0; i--) {
@@ -189,7 +192,7 @@ function App() {
   };
 
   const swipeUp = (dummy) => {
-    console.log("swipe up");
+
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
     for (let i = 0; i < 4; i++) {
@@ -231,14 +234,46 @@ function App() {
       setData(b);
     }
   };
+
   // Check Gameover
+
+  
+  const checkIfGameOver = () => {
+    let checker = swipeLeft(true);
+
+    if (JSON.stringify(data) !== JSON.stringify(checker)) {
+      return false;
+    }
+
+    let checker2 = swipeDown(true);
+    console.log("CHECKER DOWN");
+    console.table(data);
+    console.table(checker2);
+    if (JSON.stringify(data) !== JSON.stringify(checker2)) {
+      return false;
+    }
+
+    let checker3 = swipeRight(true);
+
+    if (JSON.stringify(data) !== JSON.stringify(checker3)) {
+      return false;
+    }
+
+    let checker4 = swipeUp(true);
+
+    if (JSON.stringify(data) !== JSON.stringify(checker4)) {
+      return false;
+    }
+
+    return true;
+  };
 
   // Reset
 
   const handleKeyDown = (event) => {
-    // if (gameOver) {
-    //   return;
-    // }
+    if (gameOver) {
+      return;
+    }
     switch (event.keyCode) {
       case UP_ARROW:
         // alert("up");
@@ -265,16 +300,18 @@ function App() {
         break;
     }
 
-    // let gameOverr = checkIfGameOver();
-    // if (gameOverr) {
-    //   setGameOver(true);
-    // }
+    let gameOverr = checkIfGameOver();
+    if (gameOverr) {
+      alert("game over");
+      setGameOver(true);
+    }
   };
+
 
   useEffect(() => {
     initialize();
-    document.addEventListener('keydown', handleKeyDown);
-  }, [])
+    // eslint-disable-next-line
+  }, []);
 
 
   useEvent("keydown", handleKeyDown);
@@ -308,8 +345,7 @@ const Block = ({ num }) => {
     color: num === 2 || num === 4 ? "#645B52" : "#7c7a7a",
   }}
   >
-    {/* {num !== 0 ? num : ""} */}
-    {num}
+    {num !== 0 ? num : ""}
   </div>);
 }
 
