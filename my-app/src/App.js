@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from "lodash.clonedeep";
 import { useEvent, getColors } from "./util";
-// import './App.css';
+import Swipe from "react-easy-swipe";
 
 function App() {
-
   const UP_ARROW = 38;
   const DOWN_ARROW = 40;
   const LEFT_ARROW = 37;
@@ -19,17 +18,21 @@ function App() {
 
   const [gameOver, setGameOver] = useState(false);
 
-  // initialize 
+  // Initialize
   const initialize = () => {
+    // console.log("CALLING INITIALIZE");
+
     let newGrid = cloneDeep(data);
+    console.log(newGrid);
+
     addNumber(newGrid);
+    console.table(newGrid);
     addNumber(newGrid);
     console.table(newGrid);
     setData(newGrid);
   };
 
   // AddNumber - Add an item
-
   const addNumber = (newGrid) => {
     let added = false;
     let gridFull = false;
@@ -50,16 +53,16 @@ function App() {
         gridFull = true;
         let gameOverr = checkIfGameOver();
         if (gameOverr) {
+          alert("game over");
           // setGameOver(true);
         }
         // setGameOver(true);
       }
     }
   };
-
-  // Swipe  
-
+  // Swipe Left
   const swipeLeft = (dummy) => {
+    console.log("swipe left");
     let oldGrid = data;
     let newArray = cloneDeep(data);
 
@@ -103,7 +106,9 @@ function App() {
       setData(newArray);
     }
   };
+
   const swipeRight = (dummy) => {
+    console.log("swipe right");
     let oldData = data;
     let newArray = cloneDeep(data);
 
@@ -149,6 +154,8 @@ function App() {
   };
 
   const swipeDown = (dummy) => {
+    console.log("swipe down");
+    console.log(data);
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
     for (let i = 3; i >= 0; i--) {
@@ -192,7 +199,7 @@ function App() {
   };
 
   const swipeUp = (dummy) => {
-
+    console.log("swipe up");
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
     for (let i = 0; i < 4; i++) {
@@ -236,9 +243,9 @@ function App() {
   };
 
   // Check Gameover
-
-  
   const checkIfGameOver = () => {
+    console.log("CHECKING GAME OVER");
+    // let original = cloneDeep(data);
     let checker = swipeLeft(true);
 
     if (JSON.stringify(data) !== JSON.stringify(checker)) {
@@ -267,8 +274,20 @@ function App() {
 
     return true;
   };
-
   // Reset
+  const resetGame = () => {
+    setGameOver(false);
+    const emptyGrid = [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ];
+
+    addNumber(emptyGrid);
+    addNumber(emptyGrid);
+    setData(emptyGrid);
+  };
 
   const handleKeyDown = (event) => {
     if (gameOver) {
@@ -302,52 +321,138 @@ function App() {
 
     let gameOverr = checkIfGameOver();
     if (gameOverr) {
-      alert("game over");
       setGameOver(true);
     }
   };
-
 
   useEffect(() => {
     initialize();
     // eslint-disable-next-line
   }, []);
 
-
+  // This is a custom function
   useEvent("keydown", handleKeyDown);
-  //-------------------------------
-  return (<div style={{
-    background: '#aaaaaa',
-    width: "max-content",
-    margin: "auto",
-    padding: 5,
-    borderRadius: 5,
-    marginTop: 10,
-  }}>
-    {data.map((row, oneIndex) => {
-      return (
-        <div style={{ display: 'flex' }} key={oneIndex} >
-          {row.map((digit, index) => (
-            <Block num={digit} key={index} />
-          ))}
+
+  return (
+    <div className="App">
+      <div
+        style={{
+          width: 345,
+          margin: "auto",
+          marginTop: 30,
+        }}
+      >
+        <div style={{ display: "flex" }}>
+          <div
+            style={{
+              fontFamily: "sans-serif",
+              flex: 1,
+              fontWeight: "700",
+              fontSize: 60,
+              color: "#776e65",
+            }}
+          >
+            2048
+          </div>
+          <div
+            style={{
+              flex: 1,
+              marginTop: "auto",
+            }}
+          >
+            <div onClick={resetGame} style={style.newGameButton}>
+              NEW GAME
+            </div>
+          </div>
         </div>
-      );
-    })
-    }</div>);
+        <div
+          style={{
+            background: "#AD9D8F",
+            width: "max-content",
+            height: "max-content",
+            margin: "auto",
+            padding: 5,
+            borderRadius: 5,
+            marginTop: 10,
+            position: "relative",
+          }}
+        >
+          {gameOver && (
+            <div style={style.gameOverOverlay}>
+              <div>
+                <div
+                  style={{
+                    fontSize: 30,
+                    fontFamily: "sans-serif",
+                    fontWeight: "900",
+                    color: "#776E65",
+                  }}
+                >
+                  Game Over
+                </div>
+                <div>
+                  <div
+                    style={{
+                      flex: 1,
+                      marginTop: "auto",
+                    }}
+                  >
+                    <div onClick={resetGame} style={style.tryAgainButton}>
+                      Try Again
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          <Swipe
+            onSwipeDown={() => {
+              swipeDown();
+            }}
+            onSwipeLeft={() => swipeLeft()}
+            onSwipeRight={() => swipeRight()}
+            onSwipeUp={() => swipeUp()}
+            style={{ overflowY: "hidden" }}
+          >
+            {data.map((row, oneIndex) => {
+              return (
+                <div style={{ display: "flex" }} key={oneIndex}>
+                  {row.map((digit, index) => (
+                    <Block num={digit} key={index} />
+                  ))}
+                </div>
+              );
+            })}
+          </Swipe>
+        </div>
+
+        <div style={{ width: "inherit" }}>
+          <p class="game-explanation">
+            <strong class="important">How to play:</strong> Use your{" "}
+            <strong>arrow keys</strong> to move the tiles. When two tiles with
+            the same number touch, they <strong>merge into one!</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 const Block = ({ num }) => {
   const { blockStyle } = style;
 
-  return (<div style={{
-    ...blockStyle,
-    background: getColors(num),
-    color: num === 2 || num === 4 ? "#645B52" : "#7c7a7a",
-  }}
-  >
-    {num !== 0 ? num : ""}
-  </div>);
-}
+  return (
+    <div
+      style={{
+        ...blockStyle,
+        background: getColors(num),
+        color: num === 2 || num === 4 ? "#645B52" : "#F7F4EF",
+      }}
+    >
+      {num !== 0 ? num : ""}
+    </div>
+  );
+};
 
 const style = {
   blockStyle: {
@@ -359,9 +464,43 @@ const style = {
     justifyContent: "center",
     alignItems: "center",
     fontSize: 45,
+    fontWeight: "800",
     color: "white",
-    fontWeight: "500",
-  }
+  },
+  newGameButton: {
+    padding: 10,
+    background: "#846F5B",
+    color: "#F8F5F0",
+    width: 95,
+    borderRadius: 7,
+    fontWeight: "900",
+    marginLeft: "auto",
+    marginBottom: "auto",
+    cursor: "pointer",
+  },
+  tryAgainButton: {
+    padding: 10,
+    background: "#846F5B",
+    color: "#F8F5F0",
+    width: 80,
+    borderRadius: 7,
+    fontWeight: "900",
+    cursor: "pointer",
+    margin: "auto",
+    marginTop: 20,
+  },
+  gameOverOverlay: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    left: 0,
+    top: 0,
+    borderRadius: 5,
+    background: "rgba(238,228,218,.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 };
 
 export default App;
