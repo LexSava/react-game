@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import cloneDeep from 'lodash.clonedeep';
-import { useEvent } from "./util";
+import { useEvent, getColors } from "./util";
 // import './App.css';
 
 function App() {
@@ -304,7 +304,7 @@ const Block = ({ num }) => {
 
   return (<div style={{
     ...blockStyle,
-    //background: getColor(num),
+    background: getColors(num),
     color: num === 2 || num === 4 ? "#645B52" : "#7c7a7a",
   }}
   >
