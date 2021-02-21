@@ -6,6 +6,7 @@ import useEvent from "./utils/util";
 import style from "./style/style";
 import addNumber from "./controller/addNumber";
 import Block from "./components/Block";
+import GameDescription from "./components/GameDescription";
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./const";
 
 function App() {
@@ -347,32 +348,10 @@ function App() {
           </Swipe>
         </div>
 
-        <div style={{ width: "inherit" }}>
-          <p class="game-explanation">
-            <strong class="important">How to play:</strong> Use your{" "}
-            <strong>arrow keys</strong> to move the tiles. When two tiles with
-            the same number touch, they <strong>merge into one!</strong>
-          </p>
-        </div>
+        <GameDescription />
       </div>
     </div >
   );
 }
-
-// const Block = ({ num }) => {
-//   const { blockStyle } = style;
-
-//   return (
-//     <div
-//       style={{
-//         ...blockStyle,
-//         background: getColors(num),
-//         color: num === 2 || num === 4 ? "#645B52" : "#F7F4EF",
-//       }}
-//     >
-//       {num !== 0 ? num : ""}
-//     </div>
-//   );
-// };
 
 export default App;
