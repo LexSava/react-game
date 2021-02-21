@@ -2,18 +2,13 @@ import React, { useState, useEffect } from "react";
 import Swipe from "react-easy-swipe";
 import cloneDeep from "lodash.clonedeep";
 import useEvent from "./utils/util";
-import getColors from "./utils/getColors";
-import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./const";
+// import getColors from "./utils/getColors";
 import style from "./style/style";
 import addNumber from "./controller/addNumber";
-
-
+import Block from "./components/Block";
+import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./const";
 
 function App() {
-  // const UP_ARROW = 38;
-  // const DOWN_ARROW = 40;
-  // const LEFT_ARROW = 37;
-  // const RIGHT_ARROW = 39;
 
   const [data, setData] = useState([
     [0, 0, 0, 0],
@@ -31,33 +26,6 @@ function App() {
     addNumber(newGrid);
     setData(newGrid);
   };
-
-  // AddNumber - Add an item
-  // const addNumber = (newGrid) => {
-  //   let added = false;
-  //   let gridFull = false;
-  //   let attempts = 0;
-  //   while (!added) {
-  //     if (gridFull) {
-  //       break;
-  //     }
-
-  //     let rand1 = Math.floor(Math.random() * 4);
-  //     let rand2 = Math.floor(Math.random() * 4);
-  //     attempts++;
-  //     if (newGrid[rand1][rand2] === 0) {
-  //       newGrid[rand1][rand2] = 2;
-  //       added = true;
-  //     }
-  //     if (attempts > 50) {
-  //       gridFull = true;
-  //       let gameOverr = checkIfGameOver();
-  //       if (gameOverr) {
-  //         alert("game over");
-  //       }
-  //     }
-  //   }
-  // };
 
   //Swipe 
   const swipeLeft = (dummy) => {
@@ -278,7 +246,6 @@ function App() {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ];
-
     addNumber(emptyGrid);
     addNumber(emptyGrid);
     setData(emptyGrid);
@@ -320,29 +287,16 @@ function App() {
   return (
     <div className="App">
       <div
-        style={{
-          width: 345,
-          margin: "auto",
-          marginTop: 30,
-        }}
+        style={style.content}
       >
-        <div style={{ display: "flex" }}>
+        <div style={style.head}>
           <div
-            style={{
-              fontFamily: "sans-serif",
-              flex: 1,
-              fontWeight: "700",
-              fontSize: 60,
-              color: "#776e65",
-            }}
+            style={style.logo}
           >
             2048
           </div>
           <div
-            style={{
-              flex: 1,
-              marginTop: "auto",
-            }}
+            style={style.newGameButtonBlock}
           >
             <div onClick={resetGame} style={style.newGameButton}>
               NEW GAME
@@ -350,36 +304,19 @@ function App() {
           </div>
         </div>
         <div
-          style={{
-            background: "#AD9D8F",
-            width: "max-content",
-            height: "max-content",
-            margin: "auto",
-            padding: 5,
-            borderRadius: 5,
-            marginTop: 10,
-            position: "relative",
-          }}
+          style={style.playingАield}
         >
           {gameOver && (
             <div style={style.gameOverOverlay}>
               <div>
                 <div
-                  style={{
-                    fontSize: 30,
-                    fontFamily: "sans-serif",
-                    fontWeight: "900",
-                    color: "#776E65",
-                  }}
+                  style={style.gameOverOverlayMessage}
                 >
                   Game Over
                 </div>
                 <div>
                   <div
-                    style={{
-                      flex: 1,
-                      marginTop: "auto",
-                    }}
+                    style={style.tryAgainButtonBlock}
                   >
                     <div onClick={resetGame} style={style.tryAgainButton}>
                       Try Again
@@ -418,73 +355,24 @@ function App() {
           </p>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
-const Block = ({ num }) => {
-  const { blockStyle } = style;
+// const Block = ({ num }) => {
+//   const { blockStyle } = style;
 
-  return (
-    <div
-      style={{
-        ...blockStyle,
-        background: getColors(num),
-        color: num === 2 || num === 4 ? "#645B52" : "#F7F4EF",
-      }}
-    >
-      {num !== 0 ? num : ""}
-    </div>
-  );
-};
-
-// const style = {
-//   blockStyle: {
-//     height: 80,
-//     width: 80,
-//     background: "lightgray",
-//     margin: 3,
-//     display: "flex",
-//     justifyContent: "center",
-//     alignItems: "center",
-//     fontSize: 45,
-//     fontWeight: "800",
-//     color: "white",
-//   },
-//   newGameButton: {
-//     padding: 10,
-//     background: "#846F5B",
-//     color: "#F8F5F0",
-//     width: 95,
-//     borderRadius: 7,
-//     fontWeight: "900",
-//     marginLeft: "auto",
-//     marginBottom: "auto",
-//     cursor: "pointer",
-//   },
-//   tryAgainButton: {
-//     padding: 10,
-//     background: "#846F5B",
-//     color: "#F8F5F0",
-//     width: 80,
-//     borderRadius: 7,
-//     fontWeight: "900",
-//     cursor: "pointer",
-//     margin: "auto",
-//     marginTop: 20,
-//   },
-//   gameOverOverlay: {
-//     position: "absolute",
-//     height: "100%",
-//     width: "100%",
-//     left: 0,
-//     top: 0,
-//     borderRadius: 5,
-//     background: "rgba(238,228,218,.5)",
-//     display: "flex",
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
+//   return (
+//     <div
+//       style={{
+//         ...blockStyle,
+//         background: getColors(num),
+//         color: num === 2 || num === 4 ? "#645B52" : "#F7F4EF",
+//       }}
+//     >
+//       {num !== 0 ? num : ""}
+//     </div>
+//   );
 // };
 
 export default App;
