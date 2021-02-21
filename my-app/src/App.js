@@ -8,6 +8,7 @@ import style from "./style/style";
 import Block from "./components/Block";
 import GameDescription from "./components/GameDescription";
 import GameOver from "./components/GameOver";
+import Head from "./components/Head";
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./const";
 
 
@@ -48,10 +49,10 @@ function App() {
       }
       if (attempts > 50) {
         gridFull = true;
-        let gameOverr = checkIfGameOver();
-        if (gameOverr) {
-          alert("game over");
-        }
+        // let gameOverr = checkIfGameOver();
+        // if (gameOverr) {
+        //   alert("game over");
+        // }
       }
     }
   };
@@ -314,20 +315,7 @@ function App() {
       <div
         style={style.content}
       >
-        <div style={style.head}>
-          <div
-            style={style.logo}
-          >
-            2048
-          </div>
-          <div
-            style={style.newGameButtonBlock}
-          >
-            <div onClick={resetGame} style={style.newGameButton}>
-              NEW GAME
-            </div>
-          </div>
-        </div>
+        <Head reset={resetGame} />
         <div
           style={style.playingАield}
         >
@@ -357,7 +345,7 @@ function App() {
 
         <GameDescription />
       </div>
-    </div >
+    </div>
   );
 }
 
