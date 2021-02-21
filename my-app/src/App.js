@@ -9,6 +9,7 @@ import GameDescription from "./components/GameDescription";
 import GameOver from "./components/GameOver";
 import Head from "./components/Head";
 import initialize from "./controller/initialize";
+import useLocalStorage from './hooks/useLocalStorage';
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./const";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
   ]);
 
   const [gameOver, setGameOver] = useState(false);
+  const [score, setScore] = useLocalStorage('score', 0);
 
   // Initialize
   // const initialize = () => {
@@ -32,6 +34,7 @@ function App() {
 
   //Swipe 
   const swipeLeft = (dummy) => {
+
     let oldGrid = data;
     let newArray = cloneDeep(data);
 
@@ -56,6 +59,7 @@ function App() {
         } else if (b[slow] !== 0 && b[fast] !== 0) {
           if (b[slow] === b[fast]) {
             b[slow] = b[slow] + b[fast];
+            setScore(score + b[slow]);
             b[fast] = 0;
             fast = slow + 1;
             slow++;
@@ -101,6 +105,7 @@ function App() {
         } else if (b[slow] !== 0 && b[fast] !== 0) {
           if (b[slow] === b[fast]) {
             b[slow] = b[slow] + b[fast];
+            setScore(score + b[slow]);
             b[fast] = 0;
             fast = slow - 1;
             slow--;
@@ -122,6 +127,7 @@ function App() {
   };
 
   const swipeDown = (dummy) => {
+
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
     for (let i = 3; i >= 0; i--) {
@@ -144,6 +150,7 @@ function App() {
         } else if (b[slow][i] !== 0 && b[fast][i] !== 0) {
           if (b[slow][i] === b[fast][i]) {
             b[slow][i] = b[slow][i] + b[fast][i];
+            setScore(score + b[slow][i]);
             b[fast][i] = 0;
             fast = slow - 1;
             slow--;
@@ -165,6 +172,7 @@ function App() {
   };
 
   const swipeUp = (dummy) => {
+
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
     for (let i = 0; i < 4; i++) {
@@ -187,6 +195,7 @@ function App() {
         } else if (b[slow][i] !== 0 && b[fast][i] !== 0) {
           if (b[slow][i] === b[fast][i]) {
             b[slow][i] = b[slow][i] + b[fast][i];
+            setScore(score + b[slow][i]);
             b[fast][i] = 0;
             fast = slow + 1;
             slow++;
@@ -209,33 +218,58 @@ function App() {
 
 
   // Check Gameover
+  const checkGameOver = () => {
+    if (JSON.stringify(data) !== JSON.stringify(swipeLeft(false))) {
+      return false;
+    } else if (JSON.stringify(data) !== JSON.stringify(swipeRight(false))) {
+      return false;
+    } else if (JSON.stringify(data) !== JSON.stringify(swipeUp(false))) {
+      return false;
+    } else if (JSON.stringify(data) !== JSON.stringify(swipeDown(false))) {
+      return false;
+    } else return true;
+  };
 
   const checkIfGameOver = () => {
-    let checker = swipeLeft(true);
-
-    if (JSON.stringify(data) !== JSON.stringify(checker)) {
+    if (JSON.stringify(data) !== JSON.stringify(swipeLeft(true))) {
       return false;
-    }
-
-    let checker2 = swipeDown(true);
-    if (JSON.stringify(data) !== JSON.stringify(checker2)) {
+    } else if (JSON.stringify(data) !== JSON.stringify(swipeRight(true))) {
       return false;
-    }
-
-    let checker3 = swipeRight(true);
-
-    if (JSON.stringify(data) !== JSON.stringify(checker3)) {
+    } else if (JSON.stringify(data) !== JSON.stringify(swipeUp(true))) {
       return false;
-    }
-
-    let checker4 = swipeUp(true);
-
-    if (JSON.stringify(data) !== JSON.stringify(checker4)) {
+    } else if (JSON.stringify(data) !== JSON.stringify(swipeDown(true))) {
       return false;
-    }
+    } else return true;
 
-    return true;
+
+
+    // let checker = swipeLeft(true);
+
+    // if (JSON.stringify(data) !== JSON.stringify(checker)) {
+    //   return false;
+    // }
+
+    // let checker2 = swipeDown(true);
+    // if (JSON.stringify(data) !== JSON.stringify(checker2)) {
+    //   return false;
+    // }
+
+    // let checker3 = swipeRight(true);
+
+    // if (JSON.stringify(data) !== JSON.stringify(checker3)) {
+    //   return false;
+    // }
+
+    // let checker4 = swipeUp(true);
+
+    // if (JSON.stringify(data) !== JSON.stringify(checker4)) {
+    //   return false;
+    // }
+
+    // return true;
   };
+
+
 
   const handleKeyDown = (event) => {
     if (gameOver) {
@@ -257,13 +291,12 @@ function App() {
       default:
         break;
     }
-
-    let gameOverr = checkIfGameOver();
-    if (gameOverr) {
-      setGameOver(true);
-    }
+    // let gameOverr = checkIfGameOver();
+    // if (gameOverr) {
+    //   setGameOver(true);
+    // }
   };
-  
+
   // Reset
   const resetGame = () => {
     setGameOver(false);
@@ -276,6 +309,7 @@ function App() {
     addNumber(emptyGrid);
     addNumber(emptyGrid);
     setData(emptyGrid);
+    setScore(0);
   };
 
 
@@ -290,7 +324,9 @@ function App() {
       <div
         style={style.content}
       >
-        <Head reset={resetGame} />
+        <Head
+          score={score}
+          reset={resetGame} />
         <div
           style={style.playingАield}
         >

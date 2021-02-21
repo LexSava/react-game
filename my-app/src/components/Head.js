@@ -7,7 +7,8 @@ const Head = (props) => {
                 style={style.logo}
             >
                 2048
-        </div>
+                {/* {props.score} */}
+            </div>
             <div
                 style={style.newGameButtonBlock}
             >
