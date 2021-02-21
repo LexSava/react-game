@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
-import cloneDeep from "lodash.clonedeep";
-import { useEvent, getColors } from "./util";
 import Swipe from "react-easy-swipe";
+import cloneDeep from "lodash.clonedeep";
+import useEvent from "./utils/util";
+import getColors from "./utils/getColors";
+import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./const";
+import style from "./style/style";
+import addNumber from "./controller/addNumber";
+
+
 
 function App() {
-  const UP_ARROW = 38;
-  const DOWN_ARROW = 40;
-  const LEFT_ARROW = 37;
-  const RIGHT_ARROW = 39;
+  // const UP_ARROW = 38;
+  // const DOWN_ARROW = 40;
+  // const LEFT_ARROW = 37;
+  // const RIGHT_ARROW = 39;
 
   const [data, setData] = useState([
     [0, 0, 0, 0],
@@ -20,49 +26,41 @@ function App() {
 
   // Initialize
   const initialize = () => {
-    // console.log("CALLING INITIALIZE");
-
     let newGrid = cloneDeep(data);
-    console.log(newGrid);
-
     addNumber(newGrid);
-    console.table(newGrid);
     addNumber(newGrid);
-    console.table(newGrid);
     setData(newGrid);
   };
 
   // AddNumber - Add an item
-  const addNumber = (newGrid) => {
-    let added = false;
-    let gridFull = false;
-    let attempts = 0;
-    while (!added) {
-      if (gridFull) {
-        break;
-      }
+  // const addNumber = (newGrid) => {
+  //   let added = false;
+  //   let gridFull = false;
+  //   let attempts = 0;
+  //   while (!added) {
+  //     if (gridFull) {
+  //       break;
+  //     }
 
-      let rand1 = Math.floor(Math.random() * 4);
-      let rand2 = Math.floor(Math.random() * 4);
-      attempts++;
-      if (newGrid[rand1][rand2] === 0) {
-        newGrid[rand1][rand2] = 2;
-        added = true;
-      }
-      if (attempts > 50) {
-        gridFull = true;
-        let gameOverr = checkIfGameOver();
-        if (gameOverr) {
-          alert("game over");
-          // setGameOver(true);
-        }
-        // setGameOver(true);
-      }
-    }
-  };
-  // Swipe Left
+  //     let rand1 = Math.floor(Math.random() * 4);
+  //     let rand2 = Math.floor(Math.random() * 4);
+  //     attempts++;
+  //     if (newGrid[rand1][rand2] === 0) {
+  //       newGrid[rand1][rand2] = 2;
+  //       added = true;
+  //     }
+  //     if (attempts > 50) {
+  //       gridFull = true;
+  //       let gameOverr = checkIfGameOver();
+  //       if (gameOverr) {
+  //         alert("game over");
+  //       }
+  //     }
+  //   }
+  // };
+
+  //Swipe 
   const swipeLeft = (dummy) => {
-    console.log("swipe left");
     let oldGrid = data;
     let newArray = cloneDeep(data);
 
@@ -243,9 +241,8 @@ function App() {
   };
 
   // Check Gameover
+
   const checkIfGameOver = () => {
-    console.log("CHECKING GAME OVER");
-    // let original = cloneDeep(data);
     let checker = swipeLeft(true);
 
     if (JSON.stringify(data) !== JSON.stringify(checker)) {
@@ -253,9 +250,6 @@ function App() {
     }
 
     let checker2 = swipeDown(true);
-    console.log("CHECKER DOWN");
-    console.table(data);
-    console.table(checker2);
     if (JSON.stringify(data) !== JSON.stringify(checker2)) {
       return false;
     }
@@ -274,6 +268,7 @@ function App() {
 
     return true;
   };
+
   // Reset
   const resetGame = () => {
     setGameOver(false);
@@ -295,25 +290,16 @@ function App() {
     }
     switch (event.keyCode) {
       case UP_ARROW:
-        // alert("up");
-        // console.table(data);
         swipeUp();
-        // console.table(data);
         break;
       case DOWN_ARROW:
-        // console.table(data);
         swipeDown();
-        // console.table(data);
         break;
       case LEFT_ARROW:
-        // console.table(data);
         swipeLeft();
-        // console.table(data);
         break;
       case RIGHT_ARROW:
-        // console.table(data);
         swipeRight();
-        // console.table(data);
         break;
       default:
         break;
@@ -327,10 +313,8 @@ function App() {
 
   useEffect(() => {
     initialize();
-    // eslint-disable-next-line
   }, []);
 
-  // This is a custom function
   useEvent("keydown", handleKeyDown);
 
   return (
@@ -454,53 +438,53 @@ const Block = ({ num }) => {
   );
 };
 
-const style = {
-  blockStyle: {
-    height: 80,
-    width: 80,
-    background: "lightgray",
-    margin: 3,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontSize: 45,
-    fontWeight: "800",
-    color: "white",
-  },
-  newGameButton: {
-    padding: 10,
-    background: "#846F5B",
-    color: "#F8F5F0",
-    width: 95,
-    borderRadius: 7,
-    fontWeight: "900",
-    marginLeft: "auto",
-    marginBottom: "auto",
-    cursor: "pointer",
-  },
-  tryAgainButton: {
-    padding: 10,
-    background: "#846F5B",
-    color: "#F8F5F0",
-    width: 80,
-    borderRadius: 7,
-    fontWeight: "900",
-    cursor: "pointer",
-    margin: "auto",
-    marginTop: 20,
-  },
-  gameOverOverlay: {
-    position: "absolute",
-    height: "100%",
-    width: "100%",
-    left: 0,
-    top: 0,
-    borderRadius: 5,
-    background: "rgba(238,228,218,.5)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-};
+// const style = {
+//   blockStyle: {
+//     height: 80,
+//     width: 80,
+//     background: "lightgray",
+//     margin: 3,
+//     display: "flex",
+//     justifyContent: "center",
+//     alignItems: "center",
+//     fontSize: 45,
+//     fontWeight: "800",
+//     color: "white",
+//   },
+//   newGameButton: {
+//     padding: 10,
+//     background: "#846F5B",
+//     color: "#F8F5F0",
+//     width: 95,
+//     borderRadius: 7,
+//     fontWeight: "900",
+//     marginLeft: "auto",
+//     marginBottom: "auto",
+//     cursor: "pointer",
+//   },
+//   tryAgainButton: {
+//     padding: 10,
+//     background: "#846F5B",
+//     color: "#F8F5F0",
+//     width: 80,
+//     borderRadius: 7,
+//     fontWeight: "900",
+//     cursor: "pointer",
+//     margin: "auto",
+//     marginTop: 20,
+//   },
+//   gameOverOverlay: {
+//     position: "absolute",
+//     height: "100%",
+//     width: "100%",
+//     left: 0,
+//     top: 0,
+//     borderRadius: 5,
+//     background: "rgba(238,228,218,.5)",
+//     display: "flex",
+//     justifyContent: "center",
+//     alignItems: "center",
+//   },
+// };
 
 export default App;

@@ -1,18 +1,4 @@
-import { useEffect } from "react";
-
-export const useEvent = (event, handler, passive = false) => {
-    useEffect(() => {
-        // initiate the event handler
-        window.addEventListener(event, handler, passive);
-
-        // this will clean up the event every time the component is re-rendered
-        return function cleanup() {
-            window.removeEventListener(event, handler);
-        };
-    });
-};
-
-export const getColors = (num) => {
+const getColors = (num) => {
     switch (num) {
         case 2:
             return "#EBDCD0";
@@ -40,3 +26,4 @@ export const getColors = (num) => {
             return "#C2B3A3";
     }
 };
+export default getColors;
