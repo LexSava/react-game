@@ -4,10 +4,13 @@ import cloneDeep from "lodash.clonedeep";
 import useEvent from "./utils/util";
 // import getColors from "./utils/getColors";
 import style from "./style/style";
-import addNumber from "./controller/addNumber";
+//import addNumber from "./controller/addNumber";
 import Block from "./components/Block";
 import GameDescription from "./components/GameDescription";
+import GameOver from "./components/GameOver";
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./const";
+
+
 
 function App() {
 
@@ -26,6 +29,31 @@ function App() {
     addNumber(newGrid);
     addNumber(newGrid);
     setData(newGrid);
+  };
+  const addNumber = (newGrid) => {
+    let added = false;
+    let gridFull = false;
+    let attempts = 0;
+    while (!added) {
+      if (gridFull) {
+        break;
+      }
+
+      let rand1 = Math.floor(Math.random() * 4);
+      let rand2 = Math.floor(Math.random() * 4);
+      attempts++;
+      if (newGrid[rand1][rand2] === 0) {
+        newGrid[rand1][rand2] = 2;
+        added = true;
+      }
+      if (attempts > 50) {
+        gridFull = true;
+        let gameOverr = checkIfGameOver();
+        if (gameOverr) {
+          alert("game over");
+        }
+      }
+    }
   };
 
   //Swipe 
@@ -75,7 +103,6 @@ function App() {
   };
 
   const swipeRight = (dummy) => {
-    console.log("swipe right");
     let oldData = data;
     let newArray = cloneDeep(data);
 
@@ -121,8 +148,6 @@ function App() {
   };
 
   const swipeDown = (dummy) => {
-    console.log("swipe down");
-    console.log(data);
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
     for (let i = 3; i >= 0; i--) {
@@ -166,7 +191,6 @@ function App() {
   };
 
   const swipeUp = (dummy) => {
-    console.log("swipe up");
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
     for (let i = 0; i < 4; i++) {
@@ -308,24 +332,7 @@ function App() {
           style={style.playingАield}
         >
           {gameOver && (
-            <div style={style.gameOverOverlay}>
-              <div>
-                <div
-                  style={style.gameOverOverlayMessage}
-                >
-                  Game Over
-                </div>
-                <div>
-                  <div
-                    style={style.tryAgainButtonBlock}
-                  >
-                    <div onClick={resetGame} style={style.tryAgainButton}>
-                      Try Again
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <GameOver reset={resetGame} />
           )}
           <Swipe
             onSwipeDown={() => {
