@@ -2,16 +2,14 @@ import React, { useState, useEffect } from "react";
 import Swipe from "react-easy-swipe";
 import cloneDeep from "lodash.clonedeep";
 import useEvent from "./utils/util";
-// import getColors from "./utils/getColors";
 import style from "./style/style";
-//import addNumber from "./controller/addNumber";
+import addNumber from "./controller/addNumber";
 import Block from "./components/Block";
 import GameDescription from "./components/GameDescription";
 import GameOver from "./components/GameOver";
 import Head from "./components/Head";
+import initialize from "./controller/initialize";
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./const";
-
-
 
 function App() {
 
@@ -25,37 +23,12 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
 
   // Initialize
-  const initialize = () => {
-    let newGrid = cloneDeep(data);
-    addNumber(newGrid);
-    addNumber(newGrid);
-    setData(newGrid);
-  };
-  const addNumber = (newGrid) => {
-    let added = false;
-    let gridFull = false;
-    let attempts = 0;
-    while (!added) {
-      if (gridFull) {
-        break;
-      }
-
-      let rand1 = Math.floor(Math.random() * 4);
-      let rand2 = Math.floor(Math.random() * 4);
-      attempts++;
-      if (newGrid[rand1][rand2] === 0) {
-        newGrid[rand1][rand2] = 2;
-        added = true;
-      }
-      if (attempts > 50) {
-        gridFull = true;
-        // let gameOverr = checkIfGameOver();
-        // if (gameOverr) {
-        //   alert("game over");
-        // }
-      }
-    }
-  };
+  // const initialize = () => {
+  //   let newGrid = cloneDeep(data);
+  //   addNumber(newGrid);
+  //   addNumber(newGrid);
+  //   setData(newGrid);
+  // };
 
   //Swipe 
   const swipeLeft = (dummy) => {
@@ -234,6 +207,7 @@ function App() {
     }
   };
 
+
   // Check Gameover
 
   const checkIfGameOver = () => {
@@ -263,20 +237,6 @@ function App() {
     return true;
   };
 
-  // Reset
-  const resetGame = () => {
-    setGameOver(false);
-    const emptyGrid = [
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-    ];
-    addNumber(emptyGrid);
-    addNumber(emptyGrid);
-    setData(emptyGrid);
-  };
-
   const handleKeyDown = (event) => {
     if (gameOver) {
       return;
@@ -303,9 +263,24 @@ function App() {
       setGameOver(true);
     }
   };
+  
+  // Reset
+  const resetGame = () => {
+    setGameOver(false);
+    const emptyGrid = [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ];
+    addNumber(emptyGrid);
+    addNumber(emptyGrid);
+    setData(emptyGrid);
+  };
+
 
   useEffect(() => {
-    initialize();
+    initialize(data, setData);
   }, []);
 
   useEvent("keydown", handleKeyDown);
@@ -323,9 +298,7 @@ function App() {
             <GameOver reset={resetGame} />
           )}
           <Swipe
-            onSwipeDown={() => {
-              swipeDown();
-            }}
+            onSwipeDown={() => swipeDown()}
             onSwipeLeft={() => swipeLeft()}
             onSwipeRight={() => swipeRight()}
             onSwipeUp={() => swipeUp()}
@@ -345,7 +318,7 @@ function App() {
 
         <GameDescription />
       </div>
-    </div>
+    </div >
   );
 }
 

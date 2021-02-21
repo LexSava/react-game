@@ -1,6 +1,3 @@
-
-import checkIfGameOver from '../App';
-
 const addNumber = (newGrid) => {
     let added = false;
     let gridFull = false;
@@ -19,10 +16,6 @@ const addNumber = (newGrid) => {
         }
         if (attempts > 50) {
             gridFull = true;
-            let gameOverr = checkIfGameOver();
-            if (gameOverr) {
-                alert("game over");
-            }
         }
     }
 };
