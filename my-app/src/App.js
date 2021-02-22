@@ -14,17 +14,24 @@ import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./const";
 
 function App() {
 
-  const [data, setData] = useState([
+  // const [data, setData] = useState([
+  //   [0, 0, 0, 0],
+  //   [0, 0, 0, 0],
+  //   [0, 0, 0, 0],
+  //   [0, 0, 0, 0],
+  // ]);
+  const INITIAL_DATA = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
-  ]);
-
+  ];
+  const [data, setData] = useLocalStorage('data', INITIAL_DATA);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useLocalStorage('score', 0);
   const [best, setBest] = useLocalStorage('best', 0);
   const [scoreHistory, setScoreHistory] = useLocalStorage('scoreHistory', []);
+  const [newGame, setNewGame] = useLocalStorage('newGame', true);
 
   // Initialize
   // const initialize = () => {
@@ -308,17 +315,25 @@ function App() {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ];
+
     setScoreHistory([...scoreHistory, score]);
     addNumber(emptyGrid);
     addNumber(emptyGrid);
     setData(emptyGrid);
     setScore(0);
+    // setNewGame(true);
+    // setData(INITIAL_DATA);
   };
 
-
   useEffect(() => {
-    initialize(data, setData);
-  }, []);
+    if (newGame) {
+      initialize(data, setData, setNewGame);
+    }
+  }, [newGame]);
+
+  // useEffect(() => {
+  //   initialize(data, setData, setNewGame);
+  // }, []);
 
   useEffect(() => {
     setBest(Math.max(...scoreHistory, score));
