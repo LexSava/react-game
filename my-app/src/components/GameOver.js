@@ -1,6 +1,6 @@
 import style from "../style/style";
 
-const GameOver = (props) => {
+const GameOver = (reset) => {
     return (
         <div style={style.gameOverOverlay}>
             <div>
@@ -13,7 +13,7 @@ const GameOver = (props) => {
                     <div
                         style={style.tryAgainButtonBlock}
                     >
-                        <div onClick={props.reset} style={style.tryAgainButton}>
+                        <div onClick={reset} style={style.tryAgainButton}>
                             Try Again
                     </div>
                     </div>

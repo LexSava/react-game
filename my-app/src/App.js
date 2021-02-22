@@ -326,7 +326,9 @@ function App() {
       >
         <Head
           score={score}
-          reset={resetGame} />
+          reset={resetGame}
+          score={score}
+        />
         <div
           style={style.playingАield}
         >

@@ -14,6 +14,30 @@ const style = {
         fontSize: 60,
         color: "#776e65",
     },
+    scoreBlock: {
+        display: "flex",
+        justifyContent: "flex-end",
+        marginBottom: 10,
+    },
+    scoreBlockElement: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        textAlign: "center",
+        background: "#bbada0",
+        color: "white",
+        // margin: 20,
+        padding: "5px 20px",
+        fontWeight: 900,
+        borderRadius: 7,
+    },
+    scoreBlockElementRight: {
+        marginRight: 20,
+    },
+    scoreBlockElementHead: {
+        color: "#776e65",
+        textTransform: "uppercase",
+    },
     blockStyle: {
         height: 80,
         width: 80,
@@ -26,7 +50,7 @@ const style = {
         fontWeight: "800",
         color: "white",
     },
-    newGameButtonBlock:{
+    newGameButtonBlock: {
         flex: 1,
         marginTop: "auto",
     },
@@ -41,7 +65,7 @@ const style = {
         marginBottom: "auto",
         cursor: "pointer",
     },
-    playingАield:{
+    playingАield: {
         background: "#AD9D8F",
         width: "max-content",
         height: "max-content",
@@ -51,7 +75,7 @@ const style = {
         marginTop: 10,
         position: "relative",
     },
-    tryAgainButtonBlock:{
+    tryAgainButtonBlock: {
 
     },
     tryAgainButton: {
@@ -77,7 +101,7 @@ const style = {
         justifyContent: "center",
         alignItems: "center",
     },
-    gameOverOverlayMessage:{
+    gameOverOverlayMessage: {
         fontSize: 30,
         fontFamily: "sans-serif",
         fontWeight: "900",

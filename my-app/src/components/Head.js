@@ -1,6 +1,7 @@
 import style from "../style/style";
+import Score from "./Score";
 
-const Head = (props) => {
+const Head = ({ reset, score }) => {
     return (
         <div style={style.head}>
             <div
@@ -9,12 +10,14 @@ const Head = (props) => {
                 2048
                 {/* {props.score} */}
             </div>
-            <div
-                style={style.newGameButtonBlock}
-            >
-                <div onClick={props.reset} style={style.newGameButton}>
-                    NEW GAME
+            <div> <Score score={score} />
+                <div
+                    style={style.newGameButtonBlock}
+                >
+                    <div onClick={reset} style={style.newGameButton}>
+                        NEW GAME
           </div>
+                </div>
             </div>
         </div>
     );
