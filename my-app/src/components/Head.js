@@ -1,7 +1,7 @@
 import style from "../style/style";
 import Score from "./Score";
 
-const Head = ({ reset, score }) => {
+const Head = ({ reset, score, best }) => {
     return (
         <div style={style.head}>
             <div
@@ -10,7 +10,7 @@ const Head = ({ reset, score }) => {
                 2048
                 {/* {props.score} */}
             </div>
-            <div> <Score score={score} />
+            <div> <Score score={score} best={best} />
                 <div
                     style={style.newGameButtonBlock}
                 >

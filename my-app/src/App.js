@@ -23,6 +23,8 @@ function App() {
 
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useLocalStorage('score', 0);
+  const [best, setBest] = useLocalStorage('best', 0);
+  const [scoreHistory, setScoreHistory] = useLocalStorage('scoreHistory', []);
 
   // Initialize
   // const initialize = () => {
@@ -306,6 +308,7 @@ function App() {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ];
+    setScoreHistory([...scoreHistory, score]);
     addNumber(emptyGrid);
     addNumber(emptyGrid);
     setData(emptyGrid);
@@ -317,6 +320,10 @@ function App() {
     initialize(data, setData);
   }, []);
 
+  useEffect(() => {
+    setBest(Math.max(...scoreHistory, score));
+  }, [score]);
+
   useEvent("keydown", handleKeyDown);
 
   return (
@@ -327,7 +334,7 @@ function App() {
         <Head
           score={score}
           reset={resetGame}
-          score={score}
+          best={best}
         />
         <div
           style={style.playingАield}

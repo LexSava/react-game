@@ -1,7 +1,7 @@
 import style from "../style/style";
 import React from 'react';
 
-const Score = ({ score }) => {
+const Score = ({ score, best }) => {
     return (
         <div style={style.scoreBlock}>
             <div style={{ ...style.scoreBlockElement, ...style.scoreBlockElementRight }}
@@ -18,7 +18,7 @@ const Score = ({ score }) => {
                     best
                 </span>
                 <span>
-                    {score}
+                    {best}
                 </span>
             </div>
         </div >
