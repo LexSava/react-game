@@ -1,39 +1,30 @@
 import React, { useState, useEffect } from "react";
 import Swipe from "react-easy-swipe";
 import cloneDeep from "lodash.clonedeep";
-import useEvent from "./utils/util";
+import useEvent from "./hooks/useEvent";
 import style from "./style/style";
-import addNumber from "./controller/addNumber";
+import addNumber from "./utils/addNumber";
 import Block from "./components/Block";
 import GameDescription from "./components/GameDescription";
 import GameOver from "./components/GameOver";
 import Head from "./components/Head";
-import initialize from "./controller/initialize";
+import initialize from "./utils/initialize";
 import useLocalStorage from './hooks/useLocalStorage';
-import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW } from "./const";
+import isExist from './utils/isExist';
+import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, INITIAL_DATA } from "./utils/const";
 
 function App() {
 
-  // const [data, setData] = useState([
-  //   [0, 0, 0, 0],
-  //   [0, 0, 0, 0],
-  //   [0, 0, 0, 0],
-  //   [0, 0, 0, 0],
-  // ]);
-  const INITIAL_DATA = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ];
   const [data, setData] = useLocalStorage('data', INITIAL_DATA);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useLocalStorage('score', 0);
   const [best, setBest] = useLocalStorage('best', 0);
   const [scoreHistory, setScoreHistory] = useLocalStorage('scoreHistory', []);
   const [newGame, setNewGame] = useLocalStorage('newGame', true);
+  const [isWon, setIsWon] = useLocalStorage('isWon', false);
 
   // Initialize
+
   // const initialize = () => {
   //   let newGrid = cloneDeep(data);
   //   addNumber(newGrid);
@@ -42,11 +33,9 @@ function App() {
   // };
 
   //Swipe 
-  const swipeLeft = (dummy) => {
-
+  const swipeLeft = (isMove = true) => {
     let oldGrid = data;
     let newArray = cloneDeep(data);
-
     for (let i = 0; i < 4; i++) {
       let b = newArray[i];
       let slow = 0;
@@ -80,19 +69,21 @@ function App() {
       }
     }
     if (JSON.stringify(oldGrid) !== JSON.stringify(newArray)) {
-      addNumber(newArray);
+      if (isExist(newArray, 2048)) {
+        setIsWon(true);
+        setData(newArray);
+      } else addNumber(newArray);
+    } else if (!isExist(oldGrid) && isMove && checkGameOver()) {
+      setGameOver(true);
     }
-    if (dummy) {
-      return newArray;
-    } else {
+    if (isMove) {
       setData(newArray);
-    }
+    } else return newArray;
   };
 
-  const swipeRight = (dummy) => {
-    let oldData = data;
+  const swipeRight = (isMove = true) => {
+    let oldGrid = data;
     let newArray = cloneDeep(data);
-
     for (let i = 3; i >= 0; i--) {
       let b = newArray[i];
       let slow = b.length - 1;
@@ -125,18 +116,20 @@ function App() {
         }
       }
     }
-    if (JSON.stringify(newArray) !== JSON.stringify(oldData)) {
-      addNumber(newArray);
+    if (JSON.stringify(newArray) !== JSON.stringify(oldGrid)) {
+      if (isExist(newArray, 2048)) {
+        setIsWon(true);
+        setData(newArray);
+      } else addNumber(newArray);
+    } else if (!isExist(oldGrid) && isMove && checkGameOver()) {
+      setGameOver(true);
     }
-    if (dummy) {
-      return newArray;
-    } else {
+    if (isMove) {
       setData(newArray);
-    }
+    } else return newArray;
   };
 
-  const swipeDown = (dummy) => {
-
+  const swipeDown = (isMove = true) => {
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
     for (let i = 3; i >= 0; i--) {
@@ -171,17 +164,19 @@ function App() {
       }
     }
     if (JSON.stringify(b) !== JSON.stringify(oldData)) {
-      addNumber(b);
+      if (isExist(b, 2048)) {
+        setIsWon(true);
+        setData(b);
+      } else addNumber(b);
+    } else if (!isExist(oldData) && isMove && checkGameOver()) {
+      setGameOver(true);
     }
-    if (dummy) {
-      return b;
-    } else {
+    if (isMove) {
       setData(b);
-    }
+    } else return b;
   };
 
-  const swipeUp = (dummy) => {
-
+  const swipeUp = (isMove = true) => {
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
     for (let i = 0; i < 4; i++) {
@@ -216,15 +211,17 @@ function App() {
       }
     }
     if (JSON.stringify(oldData) !== JSON.stringify(b)) {
-      addNumber(b);
+      if (isExist(b, 2048)) {
+        setIsWon(true);
+        setData(b);
+      } else addNumber(b);
+    } else if (!isExist(oldData) && isMove && checkGameOver()) {
+      setGameOver(true);
     }
-    if (dummy) {
-      return b;
-    } else {
+    if (isMove) {
       setData(b);
-    }
+    } else return b;
   };
-
 
   // Check Gameover
   const checkGameOver = () => {
@@ -238,47 +235,6 @@ function App() {
       return false;
     } else return true;
   };
-
-  const checkIfGameOver = () => {
-    if (JSON.stringify(data) !== JSON.stringify(swipeLeft(true))) {
-      return false;
-    } else if (JSON.stringify(data) !== JSON.stringify(swipeRight(true))) {
-      return false;
-    } else if (JSON.stringify(data) !== JSON.stringify(swipeUp(true))) {
-      return false;
-    } else if (JSON.stringify(data) !== JSON.stringify(swipeDown(true))) {
-      return false;
-    } else return true;
-
-
-
-    // let checker = swipeLeft(true);
-
-    // if (JSON.stringify(data) !== JSON.stringify(checker)) {
-    //   return false;
-    // }
-
-    // let checker2 = swipeDown(true);
-    // if (JSON.stringify(data) !== JSON.stringify(checker2)) {
-    //   return false;
-    // }
-
-    // let checker3 = swipeRight(true);
-
-    // if (JSON.stringify(data) !== JSON.stringify(checker3)) {
-    //   return false;
-    // }
-
-    // let checker4 = swipeUp(true);
-
-    // if (JSON.stringify(data) !== JSON.stringify(checker4)) {
-    //   return false;
-    // }
-
-    // return true;
-  };
-
-
 
   const handleKeyDown = (event) => {
     if (gameOver) {
@@ -300,10 +256,6 @@ function App() {
       default:
         break;
     }
-    // let gameOverr = checkIfGameOver();
-    // if (gameOverr) {
-    //   setGameOver(true);
-    // }
   };
 
   // Reset
@@ -315,12 +267,12 @@ function App() {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ];
-
     setScoreHistory([...scoreHistory, score]);
     addNumber(emptyGrid);
     addNumber(emptyGrid);
     setData(emptyGrid);
     setScore(0);
+    setIsWon(false);
     // setNewGame(true);
     // setData(INITIAL_DATA);
   };

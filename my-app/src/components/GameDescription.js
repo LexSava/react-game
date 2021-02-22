@@ -1,7 +1,6 @@
 
 const GameDescription = () => {
     return (
-
         <div style={{ width: "inherit" }}>
             <p className="game-explanation">
                 <strong className="important">How to play:</strong> Use your{" "}
@@ -11,5 +10,4 @@ const GameDescription = () => {
         </div>
     );
 };
-
 export default GameDescription;

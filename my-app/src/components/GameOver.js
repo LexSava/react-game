@@ -1,6 +1,6 @@
 import style from "../style/style";
 
-const GameOver = (reset) => {
+const GameOver = ({ reset }) => {
     return (
         <div style={style.gameOverOverlay}>
             <div>

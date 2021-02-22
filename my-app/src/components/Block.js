@@ -3,7 +3,6 @@ import style from "../style/style";
 
 const Block = ({ num }) => {
     const { blockStyle } = style;
-
     return (
         <div
             style={{
@@ -16,5 +15,4 @@ const Block = ({ num }) => {
         </div>
     );
 };
-
 export default Block;
