@@ -9,6 +9,7 @@ const Block = ({ num }) => {
                 ...blockStyle,
                 background: getColors(num),
                 color: num === 2 || num === 4 ? "#645B52" : "#F7F4EF",
+                ...style.test
             }}
         >
             {num !== 0 ? num : ""}

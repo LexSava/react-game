@@ -8,7 +8,6 @@ const Head = ({ reset, score, best }) => {
                 style={style.logo}
             >
                 2048
-                {/* {props.score} */}
             </div>
             <div> <Score score={score} best={best} />
                 <div

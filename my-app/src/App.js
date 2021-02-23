@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Swipe from "react-easy-swipe";
 import cloneDeep from "lodash.clonedeep";
-import useEvent from "./hooks/useEvent";
 import style from "./style/style";
+import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, INITIAL_DATA } from "./utils/const";
+import useEvent from "./hooks/useEvent";
+import useLocalStorage from './hooks/useLocalStorage';
+import initialize from "./utils/initialize";
 import addNumber from "./utils/addNumber";
+import isExist from './utils/isExist';
+import blockMovementPlayAudio from './utils/audio';
 import Block from "./components/Block";
 import GameDescription from "./components/GameDescription";
 import GameOver from "./components/GameOver";
 import Head from "./components/Head";
-import initialize from "./utils/initialize";
-import useLocalStorage from './hooks/useLocalStorage';
-import isExist from './utils/isExist';
-import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, INITIAL_DATA } from "./utils/const";
+import SoundControl from "./components/SoundControl";
+
 
 function App() {
 
@@ -243,15 +246,19 @@ function App() {
     switch (event.keyCode) {
       case UP_ARROW:
         swipeUp();
+        blockMovementPlayAudio();
         break;
       case DOWN_ARROW:
         swipeDown();
+        blockMovementPlayAudio();
         break;
       case LEFT_ARROW:
         swipeLeft();
+        blockMovementPlayAudio();
         break;
       case RIGHT_ARROW:
         swipeRight();
+        blockMovementPlayAudio();
         break;
       default:
         break;
@@ -328,9 +335,10 @@ function App() {
           </Swipe>
         </div>
 
+        <SoundControl />
         <GameDescription />
       </div>
-    </div >
+    </div>
   );
 }
 

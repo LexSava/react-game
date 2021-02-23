@@ -106,6 +106,11 @@ const style = {
         fontFamily: "sans-serif",
         fontWeight: "900",
         color: "#776E65",
+    },
+    soundControlInput: {
+        border: 0,
+        margin: "3px 0",
+        padding: "0 5px",
     }
 };
 

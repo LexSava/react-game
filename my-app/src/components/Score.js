@@ -1,5 +1,4 @@
 import style from "../style/style";
-import React from 'react';
 
 const Score = ({ score, best }) => {
     return (
@@ -21,7 +20,7 @@ const Score = ({ score, best }) => {
                     {best}
                 </span>
             </div>
-        </div >
+        </div>
     );
 };
 export default Score;
