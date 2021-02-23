@@ -13,7 +13,7 @@ import Block from "./components/Block";
 import GameDescription from "./components/GameDescription";
 import GameOver from "./components/GameOver";
 import Head from "./components/Head";
-import SoundControl from "./components/SoundControl";
+import VolumeMenu from "./components/VolumeMenu";
 
 
 function App() {
@@ -335,7 +335,7 @@ function App() {
           </Swipe>
         </div>
 
-        <SoundControl />
+        <VolumeMenu />
         <GameDescription />
       </div>
     </div>
