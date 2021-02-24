@@ -1,19 +1,16 @@
-import style from "../style/style";
-
 const Score = ({ score, best }) => {
     return (
-        <div style={style.scoreBlock}>
-            <div style={{ ...style.scoreBlockElement, ...style.scoreBlockElementRight }}
-            >
-                <span style={style.scoreBlockElementHead}>
+        <div className={"score_block"}>
+            <div className={"score_block_element"}>
+                <span className={"score_block_element_head"}>
                     score
                 </span>
                 <span>
                     {score}
                 </span>
             </div>
-            <div style={style.scoreBlockElement}>
-                <span style={style.scoreBlockElementHead}>
+            <div className={"score_block_element"}>
+                <span className={"score_block_element_head"}>
                     best
                 </span>
                 <span>
@@ -23,6 +20,7 @@ const Score = ({ score, best }) => {
         </div>
     );
 };
+
 export default Score;
 
 

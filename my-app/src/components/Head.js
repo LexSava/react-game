@@ -1,26 +1,22 @@
-import style from "../style/style";
 import Score from "./Score";
 
 const Head = ({ reset, score, best }) => {
     return (
-        <div style={style.head}>
-            <div
-                style={style.logo}
-            >
+        <div className={"head"}>
+            <div className={"logo"}>
                 2048
             </div>
             <div> <Score score={score} best={best} />
-                <div
-                    style={style.newGameButtonBlock}
-                >
-                    <div onClick={reset} style={style.newGameButton}>
+                <div className={"new_game_button_block"}>
+                    <div onClick={reset} className={"new_game_button"}>
                         NEW GAME
           </div>
                 </div>
             </div>
-        </div>
+        </div> 
     );
 };
+
 export default Head;
 
 

@@ -1,19 +1,15 @@
-import style from "../style/style";
-
 const GameOver = ({ reset }) => {
     return (
-        <div style={style.gameOverOverlay}>
+        <div className={"game_over_overlay"}>
             <div>
                 <div
-                    style={style.gameOverOverlayMessage}
+                    className={"game_over_overlay_message"}
                 >
                     Game Over
                 </div>
                 <div>
-                    <div
-                        style={style.tryAgainButtonBlock}
-                    >
-                        <div onClick={reset} style={style.tryAgainButton}>
+                    <div>
+                        <div onClick={reset} className={"try_again_button"}>
                             Try Again
                     </div>
                     </div>

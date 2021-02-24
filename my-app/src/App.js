@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Swipe from "react-easy-swipe";
 import cloneDeep from "lodash.clonedeep";
-import style from "./style/style";
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, INITIAL_DATA } from "./utils/const";
 import useEvent from "./hooks/useEvent";
 import useLocalStorage from './hooks/useLocalStorage';
@@ -14,7 +13,7 @@ import GameDescription from "./components/GameDescription";
 import GameOver from "./components/GameOver";
 import Head from "./components/Head";
 import VolumeMenu from "./components/VolumeMenu";
-
+import "./style/style.css";
 
 function App() {
 
@@ -303,7 +302,8 @@ function App() {
   return (
     <div className="App">
       <div
-        style={style.content}
+        className={"content"}
+      // style={style.content}
       >
         <Head
           score={score}
@@ -311,7 +311,7 @@ function App() {
           best={best}
         />
         <div
-          style={style.playingАield}
+          className={"playing_aield"}
         >
           {gameOver && (
             <GameOver reset={resetGame} />

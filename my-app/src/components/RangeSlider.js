@@ -20,9 +20,8 @@ const RangeSlider = memo(
     }, [mouseState]);
 
     return (
-      <div className="range-slider">
-        {/* <p>{label}</p> */}
-        <h3>Sound value: {sliderVal}</h3>
+      <div>
+        <h3 className={"range_slider_head"}>Music volume: {sliderVal}</h3>
         <input
           type="range"
           value={sliderVal}
