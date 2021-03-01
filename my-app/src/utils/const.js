@@ -3,10 +3,8 @@ export const DOWN_ARROW = 40;
 export const LEFT_ARROW = 37;
 export const RIGHT_ARROW = 39;
 export const INITIAL_DATA = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ];
-
-
+  [0, 0, 0, 0],
+  [0, 0, 0, 0],
+  [0, 0, 0, 0],
+  [0, 0, 0, 0],
+];

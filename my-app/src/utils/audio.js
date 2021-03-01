@@ -1,7 +1,7 @@
+import blockMovement from '../audios/block_movement.mp3';
+
 const blockMovementPlayAudio = () => {
-    const sound = new Audio();
-    sound.src = 'audio/block_movement.mp3';
-    // sound.src = '../audios/background_melody.mp3';
+    const sound = new Audio(blockMovement);
     sound.volume = 0.2;
     return sound.play();
 }

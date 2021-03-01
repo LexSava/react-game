@@ -26,7 +26,6 @@ const RangeSlider = memo(
           type="range"
           value={sliderVal}
           {...sliderProps}
-          className={`slider ${classes}`}
           id="myRange"
           onChange={changeCallback}
           onMouseDown={() => setMouseState("down")}

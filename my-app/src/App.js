@@ -13,6 +13,7 @@ import GameDescription from "./components/GameDescription";
 import GameOver from "./components/GameOver";
 import Head from "./components/Head";
 import VolumeMenu from "./components/VolumeMenu";
+import BoardSize from "./components/BoardSize";
 import "./style/style.css";
 
 function App() {
@@ -24,6 +25,23 @@ function App() {
   const [scoreHistory, setScoreHistory] = useLocalStorage('scoreHistory', []);
   const [newGame, setNewGame] = useLocalStorage('newGame', true);
   const [isWon, setIsWon] = useLocalStorage('isWon', false);
+
+  const [value, setValue] = useState(4);
+  const [sizeVal, setSizeVal] = useState(INITIAL_DATA);
+
+  function handleChange(newValue) {
+    setValue(newValue);
+  }
+
+  // const createArray = () => {
+  //   const arr = [];
+  //   const newArray = [];
+  //   for (let i = 0; i < value; i++) {
+  //     arr.push(0);
+  //     newArray.push(arr)
+  //   }
+  //   return setSizeVal(newArray);
+  // }
 
   // Initialize
 
@@ -265,22 +283,44 @@ function App() {
   };
 
   // Reset
+
   const resetGame = () => {
+
     setGameOver(false);
+
     const emptyGrid = [
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ];
+    const emptyGrid_5 = [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+    ];
+    const emptyGrid_6 = [
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+    ];
+
     setScoreHistory([...scoreHistory, score]);
+    if (value === 4) { console.log("YES"); }
     addNumber(emptyGrid);
     addNumber(emptyGrid);
     setData(emptyGrid);
+
+
     setScore(0);
     setIsWon(false);
     // setNewGame(true);
     // setData(INITIAL_DATA);
+
   };
 
   useEffect(() => {
@@ -289,13 +329,10 @@ function App() {
     }
   }, [newGame]);
 
-  // useEffect(() => {
-  //   initialize(data, setData, setNewGame);
-  // }, []);
-
   useEffect(() => {
     setBest(Math.max(...scoreHistory, score));
   }, [score]);
+
 
   useEvent("keydown", handleKeyDown);
 
@@ -303,7 +340,6 @@ function App() {
     <div className="App">
       <div
         className={"content"}
-      // style={style.content}
       >
         <Head
           score={score}
@@ -335,6 +371,7 @@ function App() {
           </Swipe>
         </div>
 
+        <BoardSize val={handleChange} />
         <VolumeMenu />
         <GameDescription />
       </div>
