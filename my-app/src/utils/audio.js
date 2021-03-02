@@ -1,8 +1,8 @@
 import blockMovement from '../audios/block_movement.mp3';
 
-const blockMovementPlayAudio = () => {
+const blockMovementPlayAudio = (volume = 0.2) => {
     const sound = new Audio(blockMovement);
-    sound.volume = 0.2;
+    sound.volume = volume;
     return sound.play();
 }
 

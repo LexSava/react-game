@@ -35,11 +35,16 @@ function App() {
     false
   );
 
-  const [value, setValue] = useState(4);
+  const [value, setValue] = useState(0.2);
   const [sizeVal, setSizeVal] = useState(INITIAL_DATA);
 
-  function handleChange(newValue) {
-    setValue(newValue);
+
+  function handleChildClick(vol) {
+    setValue(vol);
+  }
+
+  function handleClick(event) {
+    // do something meaningful
   }
 
   // const createArray = () => {
@@ -65,7 +70,6 @@ function App() {
   const swipeLeft = (isMove = true) => {
     let oldGrid = data;
     let newArray = cloneDeep(data);
-    console.log(replayStatus);
 
     if (replayStatus) {
       return;
@@ -312,19 +316,19 @@ function App() {
     switch (event.keyCode) {
       case UP_ARROW:
         swipeUp();
-        blockMovementPlayAudio();
+        blockMovementPlayAudio(value);
         break;
       case DOWN_ARROW:
         swipeDown();
-        blockMovementPlayAudio();
+        blockMovementPlayAudio(value);
         break;
       case LEFT_ARROW:
         swipeLeft();
-        blockMovementPlayAudio();
+        blockMovementPlayAudio(value);
         break;
       case RIGHT_ARROW:
         swipeRight();
-        blockMovementPlayAudio();
+        blockMovementPlayAudio(value);
         break;
       default:
         break;
@@ -344,7 +348,6 @@ function App() {
       [0, 0, 0, 0],
     ];
     setScoreHistory([...scoreHistory, score]);
-    if (value === 4) { console.log("YES"); }
     addNumber(emptyGrid);
     addNumber(emptyGrid);
     setData(emptyGrid);
@@ -444,7 +447,7 @@ function App() {
           </Swipe>
         </div>
         <GameDescription />
-        <VolumeMenu />
+        <VolumeMenu onChildClick={handleChildClick} />
         <ActionPanel
           onClickUndo={onClickUndo}
           disableUndo={!moveHistory.length || replayStatus || isWon}
@@ -453,7 +456,7 @@ function App() {
         // onClickRedo={onClickRedo}
         // disableRedo={!undoMoves.length || replayStatus}
         />
-        <BoardSize val={handleChange} />
+        <BoardSize />
       </div>
     </div>
   );

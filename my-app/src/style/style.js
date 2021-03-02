@@ -26,7 +26,6 @@ const style = {
         textAlign: "center",
         background: "#bbada0",
         color: "white",
-        // margin: 20,
         padding: "5px 20px",
         fontWeight: 900,
         borderRadius: 7,
