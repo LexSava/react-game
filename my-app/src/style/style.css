@@ -72,6 +72,17 @@ h6 {
   font-weight: inherit;
 }
 /* ------------------------------------------------- */
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
 .content {
   width: 355px;
   margin: auto;
@@ -106,6 +117,7 @@ h6 {
 }
 .new_game_button:hover {
   color: #d8cbb6;
+  background-color: #4e3f31;
 }
 .score_block {
   display: flex;
@@ -153,6 +165,7 @@ h6 {
   border-radius: 5px;
   margin-top: 10px;
   position: relative;
+  margin-bottom: 10px;
 }
 .game_over_overlay {
   position: absolute;
@@ -208,6 +221,7 @@ h6 {
 }
 .range_slider_button:hover {
   color: #d8cbb6;
+  background-color: #4e3f31;
 }
 .tile {
   transition: all 0.2s ease;

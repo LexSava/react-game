@@ -24,7 +24,7 @@ const BoardSize = () => {
     return (
         <div >
 
-            <h3 className="range_slider_head">Board size</h3>
+            <h3 className={"range_slider_head" + " " + "unselectable"}>Board size</h3>
             {options.map((option) => (
                 <button key={option.value} value={option.value} className={"new_game_button" + ' ' + "margin_btn_BoardSize"}>{option.label} </button>
             ))}

@@ -14,6 +14,7 @@ import GameOver from "./components/GameOver";
 import Head from "./components/Head";
 import VolumeMenu from "./components/VolumeMenu";
 import BoardSize from "./components/BoardSize";
+import ActionPanel from "./components/ActionPanel";
 import "./style/style.css";
 
 function App() {
@@ -25,6 +26,13 @@ function App() {
   const [scoreHistory, setScoreHistory] = useLocalStorage('scoreHistory', []);
   const [newGame, setNewGame] = useLocalStorage('newGame', true);
   const [isWon, setIsWon] = useLocalStorage('isWon', false);
+
+  const [moveHistory, setMoveHistory] = useLocalStorage('moveHistory', []);
+  const [undoMoves, setUndoMoves] = useLocalStorage('undoMoves', []);
+  const [replayStatus, setReplayStatus] = useLocalStorage(
+    'replayStatus',
+    false
+  );
 
   const [value, setValue] = useState(4);
   const [sizeVal, setSizeVal] = useState(INITIAL_DATA);
@@ -56,6 +64,16 @@ function App() {
   const swipeLeft = (isMove = true) => {
     let oldGrid = data;
     let newArray = cloneDeep(data);
+    console.log(replayStatus);
+
+    if (replayStatus) {
+      return;
+    }
+
+    if (undoMoves.length) {
+      setUndoMoves([]);
+    }
+
     for (let i = 0; i < 4; i++) {
       let b = newArray[i];
       let slow = 0;
@@ -89,6 +107,7 @@ function App() {
       }
     }
     if (JSON.stringify(oldGrid) !== JSON.stringify(newArray)) {
+      setMoveHistory([...moveHistory, oldGrid]);
       if (isExist(newArray, 2048)) {
         setIsWon(true);
         setData(newArray);
@@ -104,6 +123,15 @@ function App() {
   const swipeRight = (isMove = true) => {
     let oldGrid = data;
     let newArray = cloneDeep(data);
+
+    if (replayStatus) {
+      return;
+    }
+
+    if (undoMoves.length) {
+      setUndoMoves([]);
+    }
+
     for (let i = 3; i >= 0; i--) {
       let b = newArray[i];
       let slow = b.length - 1;
@@ -137,6 +165,7 @@ function App() {
       }
     }
     if (JSON.stringify(newArray) !== JSON.stringify(oldGrid)) {
+      setMoveHistory([...moveHistory, oldGrid]);
       if (isExist(newArray, 2048)) {
         setIsWon(true);
         setData(newArray);
@@ -152,6 +181,14 @@ function App() {
   const swipeDown = (isMove = true) => {
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
+
+    if (replayStatus) {
+      return;
+    }
+    if (undoMoves.length) {
+      setUndoMoves([]);
+    }
+
     for (let i = 3; i >= 0; i--) {
       let slow = b.length - 1;
       let fast = slow - 1;
@@ -184,6 +221,7 @@ function App() {
       }
     }
     if (JSON.stringify(b) !== JSON.stringify(oldData)) {
+      setMoveHistory([...moveHistory, oldData]);
       if (isExist(b, 2048)) {
         setIsWon(true);
         setData(b);
@@ -199,6 +237,15 @@ function App() {
   const swipeUp = (isMove = true) => {
     let b = cloneDeep(data);
     let oldData = JSON.parse(JSON.stringify(data));
+
+    if (replayStatus) {
+      return;
+    }
+
+    if (undoMoves.length) {
+      setUndoMoves([]);
+    }
+
     for (let i = 0; i < 4; i++) {
       let slow = 0;
       let fast = 1;
@@ -231,6 +278,7 @@ function App() {
       }
     }
     if (JSON.stringify(oldData) !== JSON.stringify(b)) {
+      setMoveHistory([...moveHistory, oldData]);
       if (isExist(b, 2048)) {
         setIsWon(true);
         setData(b);
@@ -294,34 +342,57 @@ function App() {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ];
-    const emptyGrid_5 = [
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-    ];
-    const emptyGrid_6 = [
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-    ];
-
     setScoreHistory([...scoreHistory, score]);
     if (value === 4) { console.log("YES"); }
     addNumber(emptyGrid);
     addNumber(emptyGrid);
     setData(emptyGrid);
-
-
+    setReplayStatus(false);
     setScore(0);
     setIsWon(false);
+
+    setMoveHistory([]);
+    setUndoMoves([]);
     // setNewGame(true);
     // setData(INITIAL_DATA);
 
   };
+
+  // Undo
+  const onClickUndo = () => {
+    const history = cloneDeep(moveHistory);
+    const lastMove = history.pop();
+    setMoveHistory(history);
+    setUndoMoves([...undoMoves, data]);
+    setData(lastMove);
+  };
+
+  // Replay
+  const onClickReplay = () => {
+    setReplayStatus(true);
+    const history = cloneDeep(moveHistory);
+    history.push(data);
+    for (let i = 0; i < history.length; i++) {
+      setTimeout(() => {
+        console.log('replay in progress', i);
+        setData(history[i]);
+        if (i === history.length - 1) {
+          setReplayStatus(false);
+        }
+      }, i * 1000);
+    }
+  };
+  // Redo
+  const onClickRedo = () => {
+    const history = cloneDeep(moveHistory);
+    const uMoves = cloneDeep(undoMoves);
+    const nextMove = uMoves.pop();
+    history.push(data);
+    setMoveHistory(history);
+    setUndoMoves(uMoves);
+    setData(nextMove);
+  };
+
 
   useEffect(() => {
     if (newGame) {
@@ -370,10 +441,17 @@ function App() {
             })}
           </Swipe>
         </div>
-
-        <BoardSize val={handleChange} />
-        <VolumeMenu />
         <GameDescription />
+        <VolumeMenu />
+        <ActionPanel
+          onClickUndo={onClickUndo}
+          disableUndo={!moveHistory.length || replayStatus || isWon}
+          onClickReplay={onClickReplay}
+          disableReplay={replayStatus || !moveHistory.length}
+        // onClickRedo={onClickRedo}
+        // disableRedo={!undoMoves.length || replayStatus}
+        />
+        <BoardSize val={handleChange} />
       </div>
     </div>
   );
