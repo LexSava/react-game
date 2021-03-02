@@ -8,6 +8,7 @@ import initialize from "./utils/initialize";
 import addNumber from "./utils/addNumber";
 import isExist from './utils/isExist';
 import blockMovementPlayAudio from './utils/audio';
+import disableScrolling from './utils/disableScrolling';
 import Block from "./components/Block";
 import GameDescription from "./components/GameDescription";
 import GameOver from "./components/GameOver";
@@ -408,6 +409,7 @@ function App() {
   useEvent("keydown", handleKeyDown);
 
   return (
+    disableScrolling(),
     <div className="App">
       <div
         className={"content"}
