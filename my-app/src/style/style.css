@@ -118,6 +118,9 @@ h6 {
 .new_game_button:hover {
   color: #d8cbb6;
   background-color: #4e3f31;
+  border-radius: 25px;
+  transition: 0.4s ease-out;
+  transition-delay: 0.5s;
 }
 .score_block {
   display: flex;
@@ -222,10 +225,33 @@ h6 {
 .range_slider_button:hover {
   color: #d8cbb6;
   background-color: #4e3f31;
-}
-.tile {
-  transition: all 0.2s ease;
+  border-radius: 25px;
+  transition: 0.4s ease-out;
+  transition-delay: 0.5s;
 }
 .margin_btn_BoardSize {
   margin: 5px;
 }
+.footer {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-content: center;
+}
+.tile {
+  transition: all 0.2s ease;
+}
+.new {
+  /* transform: scale(0); */
+  animation: new linear forwards;
+  animation-duration: 0.15s;
+  animation-delay: 0.1s;
+}
+/* @keyframes new {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+} */

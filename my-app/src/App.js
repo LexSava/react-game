@@ -16,6 +16,7 @@ import Head from "./components/Head";
 import VolumeMenu from "./components/VolumeMenu";
 import BoardSize from "./components/BoardSize";
 import ActionPanel from "./components/ActionPanel";
+import Footer from "./components/Footer";
 import "./style/style.css";
 
 function App() {
@@ -397,7 +398,6 @@ function App() {
     setData(nextMove);
   };
 
-
   useEffect(() => {
     if (newGame) {
       initialize(data, setData, setNewGame);
@@ -457,6 +457,7 @@ function App() {
         // disableRedo={!undoMoves.length || replayStatus}
         />
         <BoardSize />
+        <Footer />
       </div>
     </div>
   );
