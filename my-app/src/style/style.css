@@ -238,20 +238,6 @@ h6 {
   justify-content: space-evenly;
   align-content: center;
 }
-.tile {
+.new {
   transition: all 0.2s ease;
 }
-.new {
-  /* transform: scale(0); */
-  animation: new linear forwards;
-  animation-duration: 0.15s;
-  animation-delay: 0.1s;
-}
-/* @keyframes new {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
-} */

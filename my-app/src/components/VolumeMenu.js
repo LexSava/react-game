@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import backgroundMelody from '../audios/background_melody.mp3';
 import RangeSlider from "./RangeSlider"
 import useLocalStorage from '../hooks/useLocalStorage';
 import { BsFillVolumeMuteFill, BsFillVolumeUpFill } from "react-icons/bs";
 
 const VolumeMenu = ({ onChildClick }) => {
-    const [audio] = useState(new Audio(backgroundMelody));
+    const [audio] = useState(new Audio("./audios/background_melody.mp3"));
     const [parentVal, setParentVal] = useLocalStorage("parentVal", 2);
     const [playing, setPlaying] = useState(false,);
     audio.volume = parentVal / 10;
@@ -17,7 +16,6 @@ const VolumeMenu = ({ onChildClick }) => {
     }
 
     function handleClick(event) {
-        // do something meaningful
         onChildClick(event);
     }
 
@@ -58,7 +56,6 @@ const VolumeMenu = ({ onChildClick }) => {
             <button value="0" onClick={() => { muteSound(2); handleClick(0.2) }} className={"range_slider_button"} > <BsFillVolumeUpFill style={{ fontSize: "20" }} /></button>
         </div>
     );
-
 };
 
 export default VolumeMenu;

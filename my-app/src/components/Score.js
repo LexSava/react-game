@@ -1,4 +1,5 @@
 const Score = ({ score, best }) => {
+    
     return (
         <div className={"score_block"}>
             <div className={"score_block_element"}>

@@ -1,12 +1,13 @@
 import React from "react";
 import { BsArrowReturnLeft, BsArrowClockwise } from "react-icons/bs";
+
 const nop = () => { };
+
 const ActionPanel = ({ onClickUndo,
     disableUndo,
     onClickReplay,
     disableReplay,
-    onClickRedo,
-    disableRedo, }) => {
+}) => {
 
     return (
         <div>

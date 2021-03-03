@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Swipe from "react-easy-swipe";
 import cloneDeep from "lodash.clonedeep";
-import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, INITIAL_DATA } from "./utils/const";
+import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, INITIAL_DATA } from "./utils/consts";
 import useEvent from "./hooks/useEvent";
 import useLocalStorage from './hooks/useLocalStorage';
 import initialize from "./utils/initialize";
@@ -28,44 +28,17 @@ function App() {
   const [scoreHistory, setScoreHistory] = useLocalStorage('scoreHistory', []);
   const [newGame, setNewGame] = useLocalStorage('newGame', true);
   const [isWon, setIsWon] = useLocalStorage('isWon', false);
-
   const [moveHistory, setMoveHistory] = useLocalStorage('moveHistory', []);
   const [undoMoves, setUndoMoves] = useLocalStorage('undoMoves', []);
   const [replayStatus, setReplayStatus] = useLocalStorage(
     'replayStatus',
     false
   );
-
   const [value, setValue] = useState(0.2);
-  const [sizeVal, setSizeVal] = useState(INITIAL_DATA);
-
 
   function handleChildClick(vol) {
     setValue(vol);
   }
-
-  function handleClick(event) {
-    // do something meaningful
-  }
-
-  // const createArray = () => {
-  //   const arr = [];
-  //   const newArray = [];
-  //   for (let i = 0; i < value; i++) {
-  //     arr.push(0);
-  //     newArray.push(arr)
-  //   }
-  //   return setSizeVal(newArray);
-  // }
-
-  // Initialize
-
-  // const initialize = () => {
-  //   let newGrid = cloneDeep(data);
-  //   addNumber(newGrid);
-  //   addNumber(newGrid);
-  //   setData(newGrid);
-  // };
 
   //Swipe 
   const swipeLeft = (isMove = true) => {
@@ -337,11 +310,8 @@ function App() {
   };
 
   // Reset
-
   const resetGame = () => {
-
     setGameOver(false);
-
     const emptyGrid = [
       [0, 0, 0, 0],
       [0, 0, 0, 0],
@@ -355,12 +325,8 @@ function App() {
     setReplayStatus(false);
     setScore(0);
     setIsWon(false);
-
     setMoveHistory([]);
     setUndoMoves([]);
-    // setNewGame(true);
-    // setData(INITIAL_DATA);
-
   };
 
   // Undo
@@ -387,6 +353,7 @@ function App() {
       }, i * 1000);
     }
   };
+
   // Redo
   const onClickRedo = () => {
     const history = cloneDeep(moveHistory);
@@ -453,8 +420,6 @@ function App() {
           disableUndo={!moveHistory.length || replayStatus || isWon}
           onClickReplay={onClickReplay}
           disableReplay={replayStatus || !moveHistory.length}
-        // onClickRedo={onClickRedo}
-        // disableRedo={!undoMoves.length || replayStatus}
         />
         <BoardSize />
         <Footer />

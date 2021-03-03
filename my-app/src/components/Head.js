@@ -1,6 +1,7 @@
 import Score from "./Score";
 
 const Head = ({ reset, score, best }) => {
+    
     return (
         <div className={"head"}>
             <div className={"logo"}>

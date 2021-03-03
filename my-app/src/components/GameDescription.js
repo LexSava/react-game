@@ -1,5 +1,5 @@
-
 const GameDescription = () => {
+    
     return (
         <div style={{ width: "inherit" }}>
             <p className={"game-explanation" + " " + "unselectable"}>
@@ -10,4 +10,5 @@ const GameDescription = () => {
         </div>
     );
 };
+
 export default GameDescription;

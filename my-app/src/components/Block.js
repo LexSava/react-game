@@ -1,7 +1,7 @@
 import getColors from "../utils/getColors";
 
 const Block = ({ num }) => {
-
+    
     return (
         <div
             className={num >= 2 ? "block_style" + " " + "new" : "block_style"}

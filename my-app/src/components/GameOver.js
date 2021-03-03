@@ -1,4 +1,5 @@
 const GameOver = ({ reset }) => {
+    
     return (
         <div className={"game_over_overlay"}>
             <div>
